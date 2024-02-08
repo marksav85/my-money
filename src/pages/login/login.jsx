@@ -1,5 +1,5 @@
-import styles from "./login.module.css";
+import styles from "./Login.module.css";
 
-export default function login() {
+export default function Login() {
   return <div>login</div>;
 }

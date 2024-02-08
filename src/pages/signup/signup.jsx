@@ -1,5 +1,5 @@
-import styles from "./signup.module.css";
+import styles from "./Signup.module.css";
 
-export default function signup() {
+export default function Signup() {
   return <div>signup</div>;
 }

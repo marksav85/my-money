@@ -1,5 +1,5 @@
-import styles from "./home.module.css";
+import styles from "./Home.module.css";
 
-export default function home() {
+export default function Home() {
   return <div>home</div>;
 }

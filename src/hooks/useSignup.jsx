@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { projectAuth } from "../firebase/config";
+import { auth } from "../firebase/config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
@@ -11,17 +12,14 @@ export const useSignup = () => {
 
     try {
       // create user
-      const res = await projectAuth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res.user);
       // if error
       if (!res) {
         throw new Error("Could not complete the signup");
       }
       // update user display name
-      await res.user.updateProfile({ displayName: name });
+      await updateProfile(res.user, { displayName: name });
       setIsPending(false);
       setError(null);
     } catch (err) {

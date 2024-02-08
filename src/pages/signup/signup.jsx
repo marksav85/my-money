@@ -14,6 +14,7 @@ export default function Signup() {
     e.preventDefault();
     handleSignup(name, email, password);
   };
+
   return (
     <form onSubmit={handleSubmit} className={styles["signup-form"]}>
       <h2>Signup</h2>
@@ -41,7 +42,13 @@ export default function Signup() {
           value={password}
         />
       </label>
-      <button className="btn">Signup</button>
+      {!isPending && <button className="btn">Signup</button>}
+      {isPending && (
+        <button className="btn" disabled>
+          Loading
+        </button>
+      )}
+      {error && <p>{error}</p>}
     </form>
   );
 }

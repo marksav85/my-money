@@ -4,9 +4,6 @@ import { projectAuth } from "../firebase/config";
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleSignup = async (name, email, password) => {
     setIsPending(true);

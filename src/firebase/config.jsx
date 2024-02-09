@@ -16,6 +16,6 @@ const app = initializeApp(firebaseConfig);
 
 // init services
 const projectFirestore = getFirestore(app);
-const auth = getAuth(app);
+const projectAuth = getAuth(app);
 
-export { projectFirestore, auth };
+export { projectFirestore, projectAuth };

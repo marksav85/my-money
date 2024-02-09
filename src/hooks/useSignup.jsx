@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth } from "../firebase/config";
+import { projectAuth } from "../firebase/config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuthContext } from "./useAuthContext";
 
@@ -14,7 +14,11 @@ export const useSignup = () => {
 
     try {
       // create user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const res = await createUserWithEmailAndPassword(
+        projectAuth,
+        email,
+        password
+      );
       console.log(res.user);
       // if error
       if (!res) {

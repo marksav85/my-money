@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useState } from "react";
 import { projectFirestore } from "../firebase/config";
-import { timestamp } from "../firebase/config";
+
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 let initialState = {
   document: null,
@@ -38,12 +39,12 @@ const firestoreReducer = (state, action) => {
   }
 };
 
-export const useFirestore = (collection) => {
+export const useFirestore = (collectionName) => {
   const [response, dispatch] = useReducer(firestoreReducer, initialState);
   const [isCancelled, setIsCancelled] = useState(false);
 
   // collection ref
-  const ref = projectFirestore.collection(collection);
+  const collectionRef = collection(projectFirestore, collectionName);
 
   // only dispatches the response if the component is still mounted
   const dispatchIfNotCancelled = (action) => {
@@ -57,14 +58,16 @@ export const useFirestore = (collection) => {
     dispatch({ type: "PENDING" });
 
     try {
-      const createdAt = timestamp.fromDate(new Date());
-      const addedDocument = await ref.add({ ...doc, createdAt });
+      const createdAt = serverTimestamp();
+      const addedDocument = await addDoc(collectionRef, { ...doc, createdAt });
+      console.log("Added Document:", addedDocument);
       dispatchIfNotCancelled({
         type: "ADDED_DOCUMENT",
         payload: addedDocument,
       });
     } catch (error) {
       dispatchIfNotCancelled({ type: "ERROR", payload: error.message });
+      console.error("Error adding document: ", error);
     }
   };
 

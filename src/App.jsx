@@ -11,7 +11,6 @@ import Signup from "./pages/signup/Signup";
 
 function App() {
   const { authIsReady, user } = useAuthContext();
-  const rediect = true;
 
   return (
     <div className="App">

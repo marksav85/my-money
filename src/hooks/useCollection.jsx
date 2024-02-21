@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { projectFirestore } from "../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
-export const useCollections = (collectionData) => {
+export const useCollection = (collectionData) => {
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
 
@@ -10,10 +10,11 @@ export const useCollections = (collectionData) => {
     // collection ref
     let ref = collection(projectFirestore, collectionData);
 
-    const unsubscribe = ref.onSnapshot(
+    const unsubscribe = onSnapshot(
+      ref,
       (snap) => {
         let results = [];
-        snap.docs.forEach((doc) => {
+        snap.forEach((doc) => {
           // must wait for the server to create a timestamp & send it back
           results.push({ ...doc.data(), id: doc.id });
         });
@@ -30,7 +31,7 @@ export const useCollections = (collectionData) => {
 
     // unsubscribe from snapshot when no longer in use
     return () => unsubscribe();
-  }, [collection]);
+  }, [collectionData]);
 
   return { documents, error };
 };

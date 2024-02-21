@@ -1,18 +1,30 @@
 import { useState, useEffect, useRef } from "react";
 import { projectFirestore } from "../firebase/config";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 
-export const useCollection = (collectionData, collectionQuery) => {
+export const useCollection = (
+  collectionData,
+  collectionQuery,
+  collectionOrder
+) => {
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
 
   // use useRef to store the query to avoid re-rendering loop in useEffect dependency array
   const q = useRef(collectionQuery).current;
+  const o = useRef(collectionOrder).current;
 
   useEffect(() => {
     // Update the ref when collectionQuery changes
     q.current = collectionQuery;
-  }, [collectionQuery, q]);
+    o.current = collectionOrder;
+  }, [collectionQuery, q, collectionOrder, o]);
 
   useEffect(() => {
     // collection ref
@@ -21,6 +33,10 @@ export const useCollection = (collectionData, collectionQuery) => {
     // queries user id before retrieving collection data
     if (q.current) {
       ref = query(ref, where(...q.current));
+    }
+    // orders the collection data
+    if (o.current) {
+      ref = query(ref, orderBy(...o.current));
     }
 
     const unsubscribe = onSnapshot(
@@ -44,7 +60,7 @@ export const useCollection = (collectionData, collectionQuery) => {
 
     // unsubscribe from snapshot when no longer in use
     return () => unsubscribe();
-  }, [collectionData, q]);
+  }, [collectionData, q, o]);
 
   return { documents, error };
 };

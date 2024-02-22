@@ -2,6 +2,8 @@
 
 Welcome to MyMoney, the coolest app to manage your transactions effortlessly! Follow these steps to make the most out of it.
 
+[Visit MyMoney](https://mymoney-130ac.web.app/)
+
 ## Step 1: Sign up and Join the Cool Club 🎉
 
 To get started, sign up and become a part of our awesome community. Enter your name, email, and a super-secret password. We promise, joining has never been this cool!
